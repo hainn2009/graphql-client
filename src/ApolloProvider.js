@@ -7,7 +7,8 @@ import { ApolloProvider } from '@apollo/react-hooks';
 import { setContext } from 'apollo-link-context';
 
 const linkHttp = new createHttpLink({
-    uri: 'http://localhost:5000',
+    // uri: 'http://localhost:5000',
+    uri: 'https://radiant-inlet-05593.herokuapp.com/',
 });
 
 const authLink = setContext(() => {
