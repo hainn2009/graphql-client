@@ -4,27 +4,31 @@ import { Grid, Transition } from 'semantic-ui-react';
 import PostCard from '../components/PostCard';
 import { AuthContext } from '../context/auth';
 import PostForm from '../components/PostForm';
-import { useEffect } from 'react';
 import { FETCH_POSTS_QUERY } from '../util/graphql';
+import { useEffect } from 'react';
 
 function Home() {
-    useEffect(() => {
-        // fetch('https://worldometers.p.rapidapi.com/api/coronavirus/world', {
-        fetch('/coronavirus/world', {
-            method: 'GET',
-            headers: {
-                'x-rapidapi-key':
-                    'e39b87197emsh36501cda6febd34p1c0fcdjsnf028b3dd5920',
-                'x-rapidapi-host': 'worldometers.p.rapidapi.com',
-            },
-        })
-            .then((response) => {
-                console.log(response);
-            })
-            .catch((err) => {
-                console.error(err);
-            });
-    });
+    // useEffect(() => {
+    //     fetch(
+    //         'https://worldometers.p.rapidapi.com/api/coronavirus/country/Vietnam',
+    //         {
+    //             method: 'GET',
+    //             headers: {
+    //                 'x-rapidapi-key':
+    //                     'e39b87197emsh36501cda6febd34p1c0fcdjsnf028b3dd5920',
+    //                 'x-rapidapi-host': 'worldometers.p.rapidapi.com',
+    //             },
+    //         }
+    //     )
+    //         .then((response) => response.json())
+    //         .then((data) => {
+    //             console.log(data);
+    //         })
+    //         .catch((err) => {
+    //             console.error(err);
+    //         });
+    // }, []);
+
     const { user } = useContext(AuthContext);
 
     const { loading, data: { getPosts: posts } = {} } =

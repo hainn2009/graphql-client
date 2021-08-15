@@ -10,6 +10,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import MenuBar from './components/MenuBar';
 import SinglePost from './pages/SinglePost';
+import CovidStatus from './pages/CovidStatus';
 import { Container } from 'semantic-ui-react';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
                     <AuthRoute exact path="/login" component={Login} />
                     <AuthRoute exact path="/register" component={Register} />
                     <Route exact path="/posts/:postId" component={SinglePost} />
+                    <Route exact path="/covid" component={CovidStatus} />
                 </Container>
             </Router>
         </AuthProvider>
