@@ -44,7 +44,7 @@ const options = {
 
 const VerticalBar = () => {
     // : { getVNStatus: status } = {}
-    const { loading, data: { getVNStatus: status } = {} } = useQuery(gql`
+    const { loading, data: { getVNStatus: status = [] } = {} } = useQuery(gql`
         query {
             getVNStatus {
                 Confirmed
