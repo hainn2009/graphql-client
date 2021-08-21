@@ -11,19 +11,19 @@ var dataBar = {
             data: [12, 19, 3, 5, 2, 30, 60, 54],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)',
+                // 'rgba(54, 162, 235, 0.2)',
+                // 'rgba(255, 206, 86, 0.2)',
+                // 'rgba(75, 192, 192, 0.2)',
+                // 'rgba(153, 102, 255, 0.2)',
+                // 'rgba(255, 159, 64, 0.2)',
             ],
             borderColor: [
                 'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)',
+                // 'rgba(54, 162, 235, 1)',
+                // 'rgba(255, 206, 86, 1)',
+                // 'rgba(75, 192, 192, 1)',
+                // 'rgba(153, 102, 255, 1)',
+                // 'rgba(255, 159, 64, 1)',
             ],
             borderWidth: 1,
         },
@@ -43,15 +43,33 @@ const options = {
 };
 
 const VerticalBar = () => {
-    // : { getVNStatus: status } = {}
-    const { loading, data: { getVNStatus: status = [] } = {} } = useQuery(gql`
-        query {
-            getVNStatus {
-                Confirmed
-                Date
+    const todayFullTime = new Date(Date.now());
+    const year = todayFullTime.getFullYear();
+    const month = todayFullTime.getMonth();
+    const date = todayFullTime.getDate();
+    const today = new Date(Date.UTC(year, month, date, 0, 0, 0, 0));
+    const days = 6;
+    const to = new Date(today.getTime() - 24 * 60 * 60 * 1000); //yesterday
+    const from = new Date(to.getTime() - days * 24 * 60 * 60 * 1000);
+
+    const { loading, data: { getVNStatus: status = [] } = {} } = useQuery(
+        gql`
+            query ($from: String!, $to: String!) {
+                getVNStatus(from: $from, to: $to) {
+                    Confirmed
+                    Date
+                }
             }
+        `,
+        {
+            variables: {
+                from: from.toISOString(),
+                to: to.toISOString(),
+                // from: '2021-08-09T08:39:18.143Z',
+                // to: '2021-08-15T08:39:18.143Z',
+            },
         }
-    `);
+    );
 
     // datasets
     dataBar = {
@@ -62,7 +80,7 @@ const VerticalBar = () => {
         ],
         //labels: status.map((i) => i.Date),
     };
-    console.dir(dataBar);
+    // console.dir(dataBar);
 
     return (
         <div style={{ width: '400px', height: '400px' }}>
