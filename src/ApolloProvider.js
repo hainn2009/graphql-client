@@ -33,7 +33,8 @@ const authLink = setContext(() => {
 
 const client = new ApolloClient({
     // uri: "http://localhost:4000",
-    uri: "http://localhost:5000",
+    // uri: "http://localhost:5000",
+    uri: "https://graphql-server-production-9561.up.railway.app/",
     cache: new InMemoryCache(),
 });
 
