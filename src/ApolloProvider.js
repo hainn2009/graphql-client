@@ -1,9 +1,10 @@
 import React from 'react';
 import App from './App';
-import ApolloClient from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
+// import ApolloClient from 'apollo-client';
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+// import { InMemoryCache } from 'apollo-cache-inmemory';
 import { createHttpLink } from 'apollo-link-http';
-import { ApolloProvider } from '@apollo/react-hooks';
+// import { ApolloProvider } from '@apollo/react-hooks';
 import { setContext } from 'apollo-link-context';
 
 const linkHttp = new createHttpLink({
@@ -21,13 +22,19 @@ const authLink = setContext(() => {
     };
 });
 
+// const client = new ApolloClient({
+//     link: authLink.concat(linkHttp),
+//     cache: new InMemoryCache(),
+//     onError: ({ networkError, graphQLErrors }) => {
+//         console.log('graphQLErrors', graphQLErrors);
+//         console.log('networkError', networkError);
+//     },
+// });
+
 const client = new ApolloClient({
-    link: authLink.concat(linkHttp),
+    // uri: "http://localhost:4000",
+    uri: "http://localhost:5000",
     cache: new InMemoryCache(),
-    onError: ({ networkError, graphQLErrors }) => {
-        console.log('graphQLErrors', graphQLErrors);
-        console.log('networkError', networkError);
-    },
 });
 
 export default (
