@@ -1,32 +1,34 @@
-import gql from 'graphql-tag';
-import { useQuery } from '@apollo/client';
-import { Container, Header } from 'semantic-ui-react';
-import CountryStatus from '../components/CountryStatus';
+// import gql from 'graphql-tag';
+// import { useQuery } from '@apollo/client';
+import { Container, 
+    // Header 
+} from 'semantic-ui-react';
+// import CountryStatus from '../components/CountryStatus';
 import VerticalBar from '../components/VerticalBar';
 
-const COVID_STATUS_QUERY = gql`
-    query ($country: String!) {
-        getWorldStatus {
-            country
-            totalCases
-            totalDeaths
-            totalRecovered
-            newCases
-            newDeaths
-            newRecovered
-        }
+// const COVID_STATUS_QUERY = gql`
+//     query ($country: String!) {
+//         getWorldStatus {
+//             country
+//             totalCases
+//             totalDeaths
+//             totalRecovered
+//             newCases
+//             newDeaths
+//             newRecovered
+//         }
 
-        getStatusByCountry(country: $country) {
-            country
-            totalCases
-            totalDeaths
-            totalRecovered
-            newCases
-            newDeaths
-            newRecovered
-        }
-    }
-`;
+//         getStatusByCountry(country: $country) {
+//             country
+//             totalCases
+//             totalDeaths
+//             totalRecovered
+//             newCases
+//             newDeaths
+//             newRecovered
+//         }
+//     }
+// `;
 
 export default function CovidStatus() {
     // const country = 'Vietnam';
