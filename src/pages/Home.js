@@ -33,6 +33,7 @@ function Home() {
 
     const { loading, data: { getPosts: posts } = {} } =
         useQuery(FETCH_POSTS_QUERY);
+    // test
     return (
         <Grid columns={3}>
             <Grid.Row className="page-title">
