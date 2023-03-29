@@ -10,6 +10,7 @@ function PostForm() {
         body: '',
     });
 
+    /*
     const [createPost, { error }] = useMutation(CREATE_POST_MUTATION, {
         variables: values,
         // update(_, result) {
@@ -25,8 +26,32 @@ function PostForm() {
             values.body = '';
         },
     });
+    */
+    const token = localStorage.getItem('jwtToken')
+    const createPost = () => {
+        fetch("http://localhost:3001/posts", {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify(values)
+        }).then(response => response.json())
+        .then((data) => {
+            // setPosts(data.data);
+            console.log(data);
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+    }
+    // const [posts, setPosts] = useState([]);
+    // let loading = posts?.data?.length > 0 ? true : false;
+
+   const error = false;
     function useFormCallBack() {
         createPost();
+
     }
 
     return (
