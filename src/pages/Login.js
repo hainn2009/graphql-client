@@ -31,7 +31,21 @@ const Login = (props) => {
         variables: values,
     });
     function loginUserCallback() {
-        loginUser();
+        // loginUser();
+        fetch("http://localhost:3001/login", {
+            method: 'post',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            data: JSON.stringify(values)
+        }).then(response => response.json())
+        .then((data) => {
+            console.log(data);
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+        
     }
 
     return (
