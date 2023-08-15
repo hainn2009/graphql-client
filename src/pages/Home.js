@@ -6,6 +6,7 @@ import { AuthContext } from '../context/auth';
 import PostForm from '../components/PostForm';
 import { FETCH_POSTS_QUERY } from '../util/graphql';
 import { useEffect } from 'react';
+import { getPosts } from '../services/Post';
 
 function Home() {
     // useEffect(() => {
@@ -32,12 +33,7 @@ function Home() {
     const [posts, setPosts] = useState([]);
     let loading = posts?.data?.length > 0 ? true : false;
     useEffect(() => {
-        fetch("http://localhost:3001/posts", {
-            method: 'GET',
-            // headers: {
-            //     "Content-Type": "application/json",
-            // }
-        }).then(response => response.json())
+       getPosts().then(response => response.json())
         .then((data) => {
             setPosts(data.data);
             console.log(data);

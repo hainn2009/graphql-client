@@ -4,6 +4,7 @@ import { useForm } from '../util/hooks';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import { FETCH_POSTS_QUERY } from '../util/graphql';
+import { createPost } from '../services/Post';
 
 function PostForm() {
     const { values, onChange, onSubmit } = useForm(useFormCallBack, {
@@ -28,15 +29,8 @@ function PostForm() {
     });
     */
     const token = localStorage.getItem('jwtToken')
-    const createPost = () => {
-        fetch("http://localhost:3001/posts", {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                "authorization": `Bearer ${token}`
-            },
-            body: JSON.stringify(values)
-        }).then(response => response.json())
+    const createAPost = () => {
+        createPost(values, token).then(response => response.json())
         .then((data) => {
             // setPosts(data.data);
             console.log(data);
@@ -50,7 +44,7 @@ function PostForm() {
 
    const error = false;
     function useFormCallBack() {
-        createPost();
+        createAPost();
 
     }
 

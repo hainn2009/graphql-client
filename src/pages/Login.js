@@ -37,13 +37,16 @@ const Login = (props) => {
             headers: {
                 "Content-Type": "application/json",
             },
-            data: JSON.stringify(values)
+            body: JSON.stringify(values)
         }).then(response => response.json())
         .then((data) => {
             console.log(data);
+            context.login(data.data);
+            props.history.push('/');
         })
         .catch((err) => {
             console.error(err);
+            setErrors(err);
         });
         
     }
