@@ -1,12 +1,12 @@
-import React, { useContext, useState } from 'react';
-import { useQuery } from '@apollo/react-hooks';
-import { Grid, Transition } from 'semantic-ui-react';
-import PostCard from '../components/PostCard';
-import { AuthContext } from '../context/auth';
-import PostForm from '../components/PostForm';
-import { FETCH_POSTS_QUERY } from '../util/graphql';
-import { useEffect } from 'react';
-import { getPosts } from '../services/Post';
+import React, { useContext, useState } from "react";
+import { useQuery } from "@apollo/react-hooks";
+import { Grid, Transition } from "semantic-ui-react";
+import PostCard from "../components/PostCard";
+import { AuthContext } from "../context/auth";
+import PostForm from "../components/PostForm";
+import { FETCH_POSTS_QUERY } from "../util/graphql";
+import { useEffect } from "react";
+import { getPosts } from "../services/Post";
 
 function Home() {
     // useEffect(() => {
@@ -29,24 +29,31 @@ function Home() {
     //             console.error(err);
     //         });
     // }, []);
-    
+
     const [posts, setPosts] = useState([]);
     let loading = posts?.data?.length > 0 ? true : false;
     useEffect(() => {
-       getPosts().then(response => response.json())
-        .then((data) => {
-            setPosts(data.data);
-            console.log(data);
-        })
-        .catch((err) => {
-            console.error(err);
-        });
-    }, [])
-    
+        getPosts()
+            .then((data) => {
+                setPosts(data.data);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    }, []);
+
     const { user } = useContext(AuthContext);
 
-    // const { loading, data: { getPosts: posts } = {} } =
-    //     useQuery(FETCH_POSTS_QUERY);
+    const handlePostAdded = () => {
+        getPosts()
+            .then((data) => {
+                setPosts(data.data);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    };
+
     return (
         <Grid columns={3}>
             <Grid.Row className="page-title">
@@ -55,7 +62,7 @@ function Home() {
             <Grid.Row>
                 {user && (
                     <Grid.Column>
-                        <PostForm />
+                        <PostForm onPostAdded={handlePostAdded} />
                     </Grid.Column>
                 )}
                 {loading ? (
@@ -64,11 +71,8 @@ function Home() {
                     <Transition.Group>
                         {posts &&
                             posts.map((post) => (
-                                <Grid.Column
-                                    key={post.id}
-                                    style={{ marginBottom: 20 }}
-                                >
-                                    <PostCard post={post} />
+                                <Grid.Column key={post.id} style={{ marginBottom: 20 }}>
+                                    <PostCard post={post} onDeletedPost={handlePostAdded} />
                                 </Grid.Column>
                             ))}
                     </Transition.Group>

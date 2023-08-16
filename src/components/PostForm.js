@@ -1,14 +1,14 @@
-import React from 'react';
-import { Form, Button } from 'semantic-ui-react';
-import { useForm } from '../util/hooks';
-import gql from 'graphql-tag';
-import { useMutation } from '@apollo/react-hooks';
-import { FETCH_POSTS_QUERY } from '../util/graphql';
-import { createPost } from '../services/Post';
+import React from "react";
+import { Form, Button } from "semantic-ui-react";
+import { useForm } from "../util/hooks";
+import gql from "graphql-tag";
+import { useMutation } from "@apollo/react-hooks";
+import { FETCH_POSTS_QUERY } from "../util/graphql";
+import { createPost, getPosts } from "../services/Post";
 
-function PostForm() {
+function PostForm({ onPostAdded }) {
     const { values, onChange, onSubmit } = useForm(useFormCallBack, {
-        body: '',
+        body: "",
     });
 
     /*
@@ -28,37 +28,30 @@ function PostForm() {
         },
     });
     */
-    const token = localStorage.getItem('jwtToken')
+    const token = localStorage.getItem("jwtToken");
     const createAPost = () => {
-        createPost(values, token).then(response => response.json())
-        .then((data) => {
-            // setPosts(data.data);
-            console.log(data);
-        })
-        .catch((err) => {
-            console.error(err);
-        });
-    }
+        createPost(values, token)
+            .then(() => {
+                onChange({ target: { name: "body", value: "" } });
+                onPostAdded();
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    };
     // const [posts, setPosts] = useState([]);
     // let loading = posts?.data?.length > 0 ? true : false;
 
-   const error = false;
+    const error = false;
     function useFormCallBack() {
         createAPost();
-
     }
 
     return (
         <>
             <Form onSubmit={onSubmit}>
                 <Form.Field>
-                    <Form.Input
-                        placeholder="Hi World"
-                        name="body"
-                        onChange={onChange}
-                        value={values.body}
-                        error={error ? true : false}
-                    />
+                    <Form.Input placeholder="Hi World" name="body" onChange={onChange} value={values.body} error={error ? true : false} />
                     <Button type="submit" color="teal">
                         Submit
                     </Button>

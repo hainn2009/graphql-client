@@ -1,17 +1,18 @@
-import React, { useState, useContext } from 'react';
-import { Form, Button } from 'semantic-ui-react';
-import { useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+import React, { useState, useContext } from "react";
+import { Form, Button } from "semantic-ui-react";
+import { useMutation } from "@apollo/react-hooks";
+import gql from "graphql-tag";
 
-import { AuthContext } from '../context/auth';
-import { useForm } from '../util/hooks';
+import { AuthContext } from "../context/auth";
+import { useForm } from "../util/hooks";
+import { login } from "../services/User";
 
 const Login = (props) => {
     const context = useContext(AuthContext);
     const [errors, setErrors] = useState({});
     const { onChange, onSubmit, values } = useForm(loginUserCallback, {
-        username: '',
-        password: '',
+        username: "",
+        password: "",
     });
     const [loginUser, { loading }] = useMutation(LOGIN_USER, {
         // update(_, result) {
@@ -20,7 +21,7 @@ const Login = (props) => {
         // },
         update(_, { data: { login: userData } }) {
             context.login(userData);
-            props.history.push('/');
+            props.history.push("/");
         },
         onError(err) {
             setErrors(err.graphQLErrors[0].extensions.exception.errors);
@@ -30,34 +31,36 @@ const Login = (props) => {
         // }
         variables: values,
     });
-    function loginUserCallback() {
+    async function loginUserCallback() {
         // loginUser();
-        fetch("http://localhost:3001/login", {
-            method: 'post',
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(values)
-        }).then(response => response.json())
-        .then((data) => {
-            console.log(data);
-            context.login(data.data);
-            props.history.push('/');
-        })
-        .catch((err) => {
-            console.error(err);
-            setErrors(err);
-        });
-        
+        // fetch("http://localhost:3001/login", {
+        //     method: "post",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify(values),
+        // })
+        //     .then((response) => response.json())
+        //     .then((data) => {
+        //         console.log(data);
+        //         context.login(data.data);
+        //         props.history.push("/");
+        //     })
+        //     .catch((err) => {
+        //         console.error(err);
+        //         setErrors(err);
+        //     });
+        try {
+            const data = await login(values);
+            context.login(data);
+            props.history.push("/");
+        } catch (error) {
+            setErrors(error);
+        }
     }
-
     return (
         <div className="form-container">
-            <Form
-                onSubmit={onSubmit}
-                noValidate
-                className={loading ? 'loading' : ''}
-            >
+            <Form onSubmit={onSubmit} noValidate className={loading ? "loading" : ""}>
                 <h1>Login Page</h1>
                 <Form.Input
                     label="Username"

@@ -1,26 +1,20 @@
-import React, { useContext } from 'react';
-import { Card, Image, Button, Label, Icon } from 'semantic-ui-react';
-import moment from 'moment';
-import { Link } from 'react-router-dom';
+import React, { useContext } from "react";
+import { Card, Image, Button, Label, Icon } from "semantic-ui-react";
+import moment from "moment";
+import { Link } from "react-router-dom";
 
-import { AuthContext } from '../context/auth';
-import LikeButton from './LikeButton';
-import DeleteButton from './DeleteButton';
-import MyPopup from '../util/MyPopup';
+import { AuthContext } from "../context/auth";
+import LikeButton from "./LikeButton";
+import DeleteButton from "./DeleteButton";
+import MyPopup from "../util/MyPopup";
 
-const PostCard = ({
-    post: { id, body, username, createAt, commentCount, likeCount, likes },
-}) => {
+const PostCard = ({ post: { id, body, username, createAt, commentCount, likeCount, likes }, onDeletedPost }) => {
     const { user } = useContext(AuthContext);
 
     return (
         <Card fluid>
             <Card.Content>
-                <Image
-                    floated="right"
-                    size="mini"
-                    src="https://react.semantic-ui.com/images/avatar/large/molly.png"
-                />
+                <Image floated="right" size="mini" src="https://react.semantic-ui.com/images/avatar/large/molly.png" />
                 <Card.Header>{username}</Card.Header>
                 {/* True; nghia la bo chu ago */}
                 <Card.Meta as={Link} to={`/posts/${id}`}>
@@ -40,9 +34,7 @@ const PostCard = ({
                         </Label>
                     </Button>
                 </MyPopup>
-                {user && user.username === username && (
-                    <DeleteButton postId={id} />
-                )}
+                {user && user.username === username && <DeleteButton postId={id} onDeletedPost={onDeletedPost} />}
             </Card.Content>
         </Card>
     );
