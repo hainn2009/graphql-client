@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Icon, Label } from 'semantic-ui-react';
-import { useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Button, Icon, Label } from "semantic-ui-react";
+import { useMutation } from "@apollo/react-hooks";
+import gql from "graphql-tag";
+import { Link } from "react-router-dom";
 
-import MyPopup from '../util/MyPopup';
+import MyPopup from "../util/MyPopup";
+import { likePost } from "../services/Post";
 
-function LikeButton({ user, post: { id, likes, likeCount } }) {
+function LikeButton({ user, post: { id, likes, likeCount }, onLikedPost }) {
     const [liked, setLiked] = useState(false);
     useEffect(() => {
         if (user && likes.find((like) => like.username === user.username)) {
@@ -14,9 +15,9 @@ function LikeButton({ user, post: { id, likes, likeCount } }) {
         } else setLiked(false);
     }, [user, likes]);
 
-    const [likePost] = useMutation(LIKE_POST_MUTATION, {
-        variables: { postId: id },
-    });
+    // const [likePost] = useMutation(LIKE_POST_MUTATION, {
+    //     variables: { postId: id },
+    // });
     // console.log(user);
     // console.log(liked);
     const likeButton = user ? (
@@ -36,8 +37,16 @@ function LikeButton({ user, post: { id, likes, likeCount } }) {
     );
 
     return (
-        <Button as="div" labelPosition="right" onClick={likePost}>
-            <MyPopup content={liked ? 'Unlike' : 'Like'}>{likeButton}</MyPopup>
+        <Button
+            as="div"
+            labelPosition="right"
+            onClick={async () => {
+                const token = localStorage.getItem("jwtToken");
+                await likePost(id, token);
+                onLikedPost();
+            }}
+        >
+            <MyPopup content={liked ? "Unlike" : "Like"}>{likeButton}</MyPopup>
             <Label basic color="teal" pointing="left">
                 {likeCount}
             </Label>

@@ -8,7 +8,7 @@ import LikeButton from "./LikeButton";
 import DeleteButton from "./DeleteButton";
 import MyPopup from "../util/MyPopup";
 
-const PostCard = ({ post: { id, body, username, createAt, commentCount, likeCount, likes }, onDeletedPost }) => {
+const PostCard = ({ post: { id, body, username, createAt, commentCount, likeCount, likes }, onDeletedPost, onLikedPost }) => {
     const { user } = useContext(AuthContext);
 
     return (
@@ -23,7 +23,7 @@ const PostCard = ({ post: { id, body, username, createAt, commentCount, likeCoun
                 <Card.Description>{body}</Card.Description>
             </Card.Content>
             <Card.Content extra>
-                <LikeButton user={user} post={{ id, likes, likeCount }} />
+                <LikeButton user={user} post={{ id, likes, likeCount }} onLikedPost={onLikedPost} />
                 <MyPopup content="Comment on post">
                     <Button labelPosition="right" as={Link} to={`/posts/${id}`}>
                         <Button color="blue" basic>

@@ -27,3 +27,16 @@ export const deletePost = async (postId, token) => {
         throw error.response.data.errors;
     }
 };
+
+export const likePost = async (postId, token) => {
+    try {
+        const response = await axios.post(`http://localhost:3001/posts/${postId}/like`, undefined, {
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+        });
+        return response.data.data;
+    } catch (error) {
+        throw error.response.data.errors;
+    }
+};

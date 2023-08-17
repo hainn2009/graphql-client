@@ -72,7 +72,7 @@ function Home() {
                         {posts &&
                             posts.map((post) => (
                                 <Grid.Column key={post.id} style={{ marginBottom: 20 }}>
-                                    <PostCard post={post} onDeletedPost={handlePostAdded} />
+                                    <PostCard post={post} onDeletedPost={handlePostAdded} onLikedPost={handlePostAdded} />
                                 </Grid.Column>
                             ))}
                     </Transition.Group>
