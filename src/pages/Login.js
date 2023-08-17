@@ -14,23 +14,23 @@ const Login = (props) => {
         username: "",
         password: "",
     });
-    const [loginUser, { loading }] = useMutation(LOGIN_USER, {
-        // update(_, result) {
-        //     context.login(result.data.login);
-        //     props.history.push('/');
-        // },
-        update(_, { data: { login: userData } }) {
-            context.login(userData);
-            props.history.push("/");
-        },
-        onError(err) {
-            setErrors(err.graphQLErrors[0].extensions.exception.errors);
-        },
-        // variables: {
-        //     username: values.username
-        // }
-        variables: values,
-    });
+    // const [loginUser, { loading }] = useMutation(LOGIN_USER, {
+    //     // update(_, result) {
+    //     //     context.login(result.data.login);
+    //     //     props.history.push('/');
+    //     // },
+    //     update(_, { data: { login: userData } }) {
+    //         context.login(userData);
+    //         props.history.push("/");
+    //     },
+    //     onError(err) {
+    //         setErrors(err.graphQLErrors[0].extensions.exception.errors);
+    //     },
+    //     // variables: {
+    //     //     username: values.username
+    //     // }
+    //     variables: values,
+    // });
     async function loginUserCallback() {
         // loginUser();
         // fetch("http://localhost:3001/login", {
@@ -60,7 +60,11 @@ const Login = (props) => {
     }
     return (
         <div className="form-container">
-            <Form onSubmit={onSubmit} noValidate className={loading ? "loading" : ""}>
+            <Form
+                onSubmit={onSubmit}
+                noValidate
+                // className={loading ? "loading" : ""} TODO
+            >
                 <h1>Login Page</h1>
                 <Form.Input
                     label="Username"
