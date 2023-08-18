@@ -53,7 +53,6 @@ function Home() {
                 console.error(err);
             });
     };
-
     return (
         <Grid columns={3}>
             <Grid.Row className="page-title">
