@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Button, Icon, Label } from "semantic-ui-react";
-import { useMutation } from "@apollo/react-hooks";
-import gql from "graphql-tag";
 import { Link } from "react-router-dom";
 
 import MyPopup from "../util/MyPopup";
@@ -15,11 +13,6 @@ function LikeButton({ user, post: { id, likes, likeCount }, onLikedPost }) {
         } else setLiked(false);
     }, [user, likes]);
 
-    // const [likePost] = useMutation(LIKE_POST_MUTATION, {
-    //     variables: { postId: id },
-    // });
-    // console.log(user);
-    // console.log(liked);
     const likeButton = user ? (
         liked ? (
             <Button color="teal">
@@ -54,16 +47,4 @@ function LikeButton({ user, post: { id, likes, likeCount }, onLikedPost }) {
     );
 }
 
-const LIKE_POST_MUTATION = gql`
-    mutation likePost($postId: ID!) {
-        likePost(postId: $postId) {
-            id
-            likes {
-                id
-                username
-            }
-            likeCount
-        }
-    }
-`;
 export default LikeButton;

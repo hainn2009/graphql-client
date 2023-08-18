@@ -1,6 +1,4 @@
 import React, { useContext, useState, useRef, useEffect } from "react";
-import gql from "graphql-tag";
-import { useQuery, useMutation } from "@apollo/react-hooks";
 import { Card, Grid, Image, Button, Icon, Label, Form } from "semantic-ui-react";
 import moment from "moment";
 import LikeButton from "../components/LikeButton";
@@ -9,16 +7,16 @@ import { AuthContext } from "../context/auth";
 import DeleteButton from "../components/DeleteButton";
 import MyPopup from "../util/MyPopup";
 import { getPost } from "../services/Post";
-import { createComment, deleteComment } from "../services/Post";
+import { createComment } from "../services/Post";
+import { useNavigate, useParams } from "react-router";
 
-export default function SinglePost(props) {
-    //TODO: no phai la postId vì trong app.js đã viết như vậy
-    const postId = props.match.params.postId;
+export default function SinglePost() {
+    const { postId } = useParams();
     const { user } = useContext(AuthContext);
     const commentInputRef = useRef(null);
-
+    const navigate = useNavigate();
     const [comment, setComment] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
+    // const [isLoading, setIsLoading] = useState(false);
     const [post, setPost] = useState();
 
     useEffect(() => {
@@ -29,7 +27,7 @@ export default function SinglePost(props) {
             .catch((err) => {
                 console.error(err);
             });
-    }, []);
+    }, [postId]);
 
     const reloadData = () => {
         getPost(postId)
@@ -41,29 +39,12 @@ export default function SinglePost(props) {
             });
     };
 
-    // const { data: { getPost } = {} } = useQuery(FETCH_POST_QUERY, {
-    //     variables: { postId },
-    // });
-
-    // const [submitComment] = useMutation(SUBMIT_COMMENT_MUTATION, {
-    //     update() {
-    //         //Set comment to empty after submit it
-    //         setComment("");
-    //         commentInputRef.current.blur();
-    //     },
-    //     variables: {
-    //         postId,
-    //         body: comment,
-    //     },
-    // });
-
     const deletePostCallback = () => {
-        props.history.push("/");
+        navigate("/");
     };
 
     let postMarkup;
     const token = localStorage.getItem("jwtToken");
-    console.log("comments", post && post.comments);
     if (!post) {
         postMarkup = "<p>Loading...</p>";
     } else {
@@ -84,7 +65,7 @@ export default function SinglePost(props) {
                             <Card.Content extra>
                                 <LikeButton user={user} post={{ id, likes, likeCount }} onLikedPost={reloadData} />
                                 <MyPopup content="Comment on post">
-                                    <Button as="div" labelPosition="right" onClick={() => console.log("Comments")}>
+                                    <Button as="div" labelPosition="right">
                                         <Button basic color="blue">
                                             <Icon name="comments" />
                                         </Button>
@@ -147,40 +128,3 @@ export default function SinglePost(props) {
 
     return postMarkup;
 }
-
-const SUBMIT_COMMENT_MUTATION = gql`
-    mutation ($postId: ID!, $body: String!) {
-        createComment(postId: $postId, body: $body) {
-            id
-            comments {
-                id
-                username
-                createAt
-                body
-            }
-            commentCount
-        }
-    }
-`;
-
-const FETCH_POST_QUERY = gql`
-    query ($postId: ID!) {
-        getPost(postId: $postId) {
-            id
-            username
-            createAt
-            body
-            likeCount
-            likes {
-                username
-            }
-            commentCount
-            comments {
-                id
-                username
-                createAt
-                body
-            }
-        }
-    }
-`;

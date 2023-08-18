@@ -1,8 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Form, Button } from "semantic-ui-react";
-import { useMutation } from "@apollo/react-hooks";
-import gql from "graphql-tag";
-
+import { useNavigate } from "react-router";
 import { AuthContext } from "../context/auth";
 import { useForm } from "../util/hooks";
 import { login } from "../services/User";
@@ -14,46 +12,12 @@ const Login = (props) => {
         username: "",
         password: "",
     });
-    // const [loginUser, { loading }] = useMutation(LOGIN_USER, {
-    //     // update(_, result) {
-    //     //     context.login(result.data.login);
-    //     //     props.history.push('/');
-    //     // },
-    //     update(_, { data: { login: userData } }) {
-    //         context.login(userData);
-    //         props.history.push("/");
-    //     },
-    //     onError(err) {
-    //         setErrors(err.graphQLErrors[0].extensions.exception.errors);
-    //     },
-    //     // variables: {
-    //     //     username: values.username
-    //     // }
-    //     variables: values,
-    // });
+    const navigate = useNavigate();
     async function loginUserCallback() {
-        // loginUser();
-        // fetch("http://localhost:3001/login", {
-        //     method: "post",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify(values),
-        // })
-        //     .then((response) => response.json())
-        //     .then((data) => {
-        //         console.log(data);
-        //         context.login(data.data);
-        //         props.history.push("/");
-        //     })
-        //     .catch((err) => {
-        //         console.error(err);
-        //         setErrors(err);
-        //     });
         try {
             const data = await login(values);
             context.login(data);
-            props.history.push("/");
+            navigate("/");
         } catch (error) {
             setErrors(error);
         }
@@ -100,21 +64,5 @@ const Login = (props) => {
         </div>
     );
 };
-
-const LOGIN_USER = gql`
-    mutation login($username: String!, $password: String!) {
-        login(
-            username: $username
-
-            password: $password
-        ) {
-            id
-            email
-            username
-            createAt
-            token
-        }
-    }
-`;
 
 export default Login;

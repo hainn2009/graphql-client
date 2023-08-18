@@ -1,6 +1,5 @@
 import axios from "axios";
 const backendUrl = process.env.NODE_ENV === "development" ? process.env.REACT_APP_URI_DEVELOPMENT : process.env.REACT_APP_URI_PRODUCTION;
-console.log("environment", process.env.NODE_ENV, backendUrl);
 export const getPosts = () => {
     return fetch(`${backendUrl}/posts`, {
         method: "GET",

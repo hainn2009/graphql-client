@@ -1,8 +1,9 @@
-import ReactDOM from 'react-dom';
-import reportWebVitals from './reportWebVitals';
-import ApolloProvider from './ApolloProvider';
+import { createRoot } from "react-dom/client";
+import reportWebVitals from "./reportWebVitals";
+import MainProvider from "./MainProvider";
 
-ReactDOM.render(ApolloProvider, document.getElementById('root'));
+const root = createRoot(document.getElementById("root"));
+root.render(<MainProvider />);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
