@@ -5,7 +5,7 @@ import { AuthContext } from "../context/auth";
 import { useForm } from "../util/hooks";
 import { login } from "../services/User";
 
-const Login = (props) => {
+const Login = () => {
     const context = useContext(AuthContext);
     const [errors, setErrors] = useState({});
     const { onChange, onSubmit, values } = useForm(loginUserCallback, {
