@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Grid, Transition } from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
 import PostCard from "../components/PostCard";
 import { AuthContext } from "../context/auth";
 import PostForm from "../components/PostForm";
@@ -44,14 +44,16 @@ function Home() {
                 {loading ? (
                     <h1>loading...</h1>
                 ) : (
-                    <Transition.Group>
+                    // <Transition.Group>
+                    <>
                         {posts &&
                             posts.map((post) => (
                                 <Grid.Column key={post.id} style={{ marginBottom: 20 }}>
                                     <PostCard post={post} onDeletedPost={handlePostAdded} onLikedPost={handlePostAdded} />
                                 </Grid.Column>
                             ))}
-                    </Transition.Group>
+                    </>
+                    // </Transition.Group>
                 )}
             </Grid.Row>
         </Grid>

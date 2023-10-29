@@ -1,6 +1,7 @@
 import { createRoot } from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
 import MainProvider from "./MainProvider";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const root = createRoot(document.getElementById("root"));
 root.render(<MainProvider />);
